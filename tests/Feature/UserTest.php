@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ class UserTest extends TestCase
      */
     public function testCreateUser()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->assertDatabaseHas('users', [
             'name' => $user->name,
             'email' => $user->email
@@ -30,7 +30,7 @@ class UserTest extends TestCase
      */
     public function testUpdateUser()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $data = [
             'name' => 'helo',

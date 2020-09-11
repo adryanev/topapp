@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+use Modules\Auth\Http\Controllers\AuthController;
+
 Route::prefix('auth')->group(function() {
-    Route::get('/', 'AuthController@index');
+    Route::get('/', [AuthController::class,'index']);
 });

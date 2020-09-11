@@ -3,7 +3,7 @@
 namespace Modules\Admin\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -98,7 +98,7 @@ class AdminServiceProvider extends ServiceProvider
     public function registerFactories()
     {
         if (! app()->environment('production') && $this->app->runningInConsole()) {
-            app(Factory::class)->load(module_path($this->moduleName, 'Database/factories'));
+            $this->loadFactoriesFrom(module_path($this->moduleName, 'Database/factories'));
         }
     }
 

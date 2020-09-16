@@ -4,24 +4,20 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
 
     use RefreshDatabase;
-
-
     /**
      * Testing Create an user
      */
     public function testCreateUser()
     {
-        $user = User::factory()->create();
+        $user = User::factory(2)->create();
         $this->assertDatabaseHas('users', [
-            'name' => $user->name,
-            'email' => $user->email
+            'email' => $user[0]->email
         ]);
     }
 
@@ -30,18 +26,27 @@ class UserTest extends TestCase
      */
     public function testUpdateUser()
     {
-        $user = User::factory()->create();
+        $user = User::find(1);
 
         $data = [
             'name' => 'helo',
             'email' => 'emailchange@email.com',
-            'password' => password_hash('password1',PASSWORD_DEFAULT)
+            'password' => password_hash('password1', PASSWORD_DEFAULT)
         ];
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = $data['password'];
 
         $user->save();
-        $this->assertDatabaseHas('users',$data);
+        $this->assertDatabaseHas('users', $data);
+    }
+
+    public function testDeleteUser()
+    {
+        $user = User::find(1);
+        $user->delete();
+        $this->assertDeleted($user);
+        $this->assertDatabaseMissing('users', ['email' => $user->email]);
+
     }
 }
